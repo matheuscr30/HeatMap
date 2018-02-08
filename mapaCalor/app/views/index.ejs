@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mapa de Aberturas e Rompimentos - ALGAR TELECOM</title>
+    <meta name="viewport" content="initial-scale=1.0">
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="js/geoxml3-master/kmz/ZipFile.complete.js"></script>
+    <script src="js/geoxml3-master/kmz/geoxml3.js"></script>
+    <script src="js/jquery-3.3.1.min.js"></script>
+
+    <!-- YUJO - tem api do CONNECT-MASTER? -->
+    <script type="text/javascript">
+        //var points;
+
+        $(document).ready(function () {
+            $.get( "/getPoints", function( data ) {
+                var points = data.points;
+               //console.log(points);
+                initMap(points);
+            });
+        });
+    </script>
+
+
+    <script src="https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/markerclusterer.js"></script>
+    <script src="js/map.js"></script>
+
+
+</head>
+<body>
+
+<div id="map"></div>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5NNONZMPnkrdvvCWJ9ordrYcybEK16mo" async
+        defer></script>
+</body>
+</html>
