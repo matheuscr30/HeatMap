@@ -1,4 +1,5 @@
-var XLSX = require('xlsx')
+var XLSX = require('xlsx');
+var path = require('path');
 
 
 module.exports.index = function (application, req, res) {
@@ -6,9 +7,11 @@ module.exports.index = function (application, req, res) {
 }
 
 module.exports.getPoints = function (application, req, res) {
-    var workbook = XLSX.readFile('/home/matheus/Documents/ALGAR/MAPS/mapaCalor/app/public/xlsx/trechosatualizados.xlsx');
+    var filePath = path.join(path.dirname(__dirname), 'public', 'xlsx');
+    //console.log(filePath);
+    var workbook = XLSX.readFile(filePath + '/trechosatualizados.xlsx');
     var sheet_name_list = workbook.SheetNames;
-    console.log(sheet_name_list[0]);
+    //console.log(sheet_name_list[0]);
 
     var worksheet = workbook.Sheets[sheet_name_list[0]];
     var range = XLSX.utils.decode_range(worksheet['!ref']);
@@ -19,7 +22,7 @@ module.exports.getPoints = function (application, req, res) {
     var pontos = [];
 
     for(var i = 0; i < pontosAux.length; i++){
-        console.log(pontosAux[i]['Motivo']);
+        //console.log(pontosAux[i]['Motivo']);
         if(pontosAux[i]['Motivo'] === "Rompimento de Fibra"
             && pontosAux[i]["Protocolo"] != "173260146"
             && pontosAux[i]["Protocolo"] != ""
@@ -27,6 +30,6 @@ module.exports.getPoints = function (application, req, res) {
             pontos.push(pontosAux[i]);
     }
 
-    console.log(pontos);
+    //console.log(pontos);
     res.json({points:pontos});
 }
