@@ -25,7 +25,7 @@ module.exports.getPoints = function (application, req, res) {
         //console.log(pontosAux[i]['Motivo']);
         if(pontosAux[i]['Motivo'] === "Rompimento de Fibra"
             && pontosAux[i]["Protocolo"] != "173260146"
-            && pontosAux[i]["Protocolo"] != ""
+            && pontosAux[i]["Protocolo"] != "173273362"
             && pontosAux[i]["Protocolo"] != "173251368")
             pontos.push(pontosAux[i]);
     }
