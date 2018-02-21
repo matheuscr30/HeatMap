@@ -20,13 +20,13 @@ function initMap(pontos) {
 
     geocoder = new google.maps.Geocoder();
 
-    console.log(points.length);
+    //console.log(points.length);
     config(createMarkers);
 }
 
 function config(callback) {
     $.each(points, function (index, point) {
-        console.log(point['Protocolo'] + " " + point['Trecho/Local']);
+        //console.log(point['Protocolo'] + " " + point['Trecho/Local']);
         if (geocoder) {
             geocoder.geocode({
                 'address': point['Trecho/Local']
@@ -34,11 +34,11 @@ function config(callback) {
                 if (status == google.maps.GeocoderStatus.OK) {
                     point.Latitude = results[0].geometry.location.lat();
                     point.Longitude = results[0].geometry.location.lng();
-                    console.log(point['Protocolo'] + " " + point.Latitude + " " + point.Longitude);
+                    //console.log(point['Protocolo'] + " " + point.Latitude + " " + point.Longitude);
                     callback(index, point);
                 }
                 else if(status == google.maps.GeocoderStatus.ZERO_RESULTS){
-                    console.log(point[''] + " " + point['Protocolo'] + " " + point['Trecho/Local']);
+                    //console.log(point[''] + " " + point['Protocolo'] + " " + point['Trecho/Local']);
                 }
             });
         }
