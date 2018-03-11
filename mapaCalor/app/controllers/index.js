@@ -5,6 +5,18 @@ module.exports.index = function (application, req, res) {
     res.render('index');
 };
 
+module.exports.login = function (application, req, res) {
+    let body = req.body;
+
+    if(body['username'] === '' || body['password'] === '' || body['username'] !== 'algartelecom2018' || body['password'] !== 'tstrt2018') {
+        res.render('index', {
+            errors: JSON.stringify(true)
+        });
+    }
+    else
+        res.render('home');
+};
+
 module.exports.getPoints = function (application, req, res) {
     var filePath = path.join(path.dirname(__dirname), 'public', 'xlsx');
     //console.log(filePath);
