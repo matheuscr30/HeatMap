@@ -2,17 +2,31 @@ var XLSX = require('xlsx');
 var path = require('path');
 
 module.exports.index = function (application, req, res) {
-    res.render('index');
+    if (req.session.authorized === true)
+        res.redirect('/home');
+    else
+        res.render('index', {
+            errors: JSON.stringify(false)
+        });
 };
 
 module.exports.login = function (application, req, res) {
     let body = req.body;
 
-    if(body['username'] === '' || body['password'] === '' || body['username'] !== 'algartelecom2018' || body['password'] !== 'tstrt2018') {
+    if (body['username'] === '' || body['password'] === '' || body['username'] !== 'algartelecom2018' || body['password'] !== 'tstrt2018') {
         res.render('index', {
             errors: JSON.stringify(true)
         });
     }
+    else {
+        req.session.authorized = true;
+        res.redirect('/home');
+    }
+};
+
+module.exports.home = function (application, req, res) {
+    if (req.session.authorized !== true)
+        res.redirect('/');
     else
         res.render('home');
 };
@@ -32,9 +46,9 @@ module.exports.getPoints = function (application, req, res) {
     var pontosAux = XLSX.utils.sheet_to_json(worksheet);
     var pontos = [];
 
-    for(var i = 0; i < pontosAux.length; i++){
+    for (var i = 0; i < pontosAux.length; i++) {
         //console.log(pontosAux[i]['Motivo']);
-        if(pontosAux[i]['Motivo'] === "Rompimento de Fibra"
+        if (pontosAux[i]['Motivo'] === "Rompimento de Fibra"
             && pontosAux[i]["Protocolo"] != "173260146"
             && pontosAux[i]["Protocolo"] != "173273362"
             && pontosAux[i]["Protocolo"] != "173251368")
@@ -42,5 +56,5 @@ module.exports.getPoints = function (application, req, res) {
     }
 
     //console.log(pontos);
-    res.json({points:pontos});
+    res.json({points: pontos});
 };

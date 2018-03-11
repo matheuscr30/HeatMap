@@ -173,7 +173,7 @@ function configSearchBox() {
     });
 }
 
-function searchPlacebyButton(place) {
+function searchPlaceByButton(place) {
     if (place == "")
         return;
 

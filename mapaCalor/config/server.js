@@ -7,6 +7,8 @@ var consign = require('consign');
 /* importar o módulo do body-parser */
 var bodyParser = require('body-parser');
 
+var expressSession = require('express-session');
+
 /* iniciar o objeto do express */
 var app = express();
 
@@ -19,6 +21,12 @@ app.use(express.static('./app/public'));
 
 /* configurar o middleware body-parser */
 app.use(bodyParser.urlencoded({extended: true}));
+
+app.use(expressSession({
+    secret : 'secret',
+    resave : false,
+    saveUninitialized : false
+}));
 
 /* efetua o autoload das rotas, dos models e dos controllers para o objeto app */
 consign()
