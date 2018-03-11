@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "Jorge",
-  "license": "ISC",
+  "author": "Matheus Cunha Reis",
+  "license": "",
   "dependencies": {
     "body-parser": "^1.18.2",
     "consign": "^0.1.6",

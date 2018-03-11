@@ -6,4 +6,4 @@ module.exports = function(application){
 	application.get('/getPoints', function (req, res) {
 		application.app.controllers.index.getPoints(application, req, res);
     });
-}
+};

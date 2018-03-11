@@ -1,10 +1,9 @@
 var XLSX = require('xlsx');
 var path = require('path');
 
-
 module.exports.index = function (application, req, res) {
     res.render('index');
-}
+};
 
 module.exports.getPoints = function (application, req, res) {
     var filePath = path.join(path.dirname(__dirname), 'public', 'xlsx');
@@ -32,4 +31,4 @@ module.exports.getPoints = function (application, req, res) {
 
     //console.log(pontos);
     res.json({points:pontos});
-}
+};

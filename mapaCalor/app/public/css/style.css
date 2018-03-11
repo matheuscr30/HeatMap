@@ -2,7 +2,92 @@
 * element that contains the map. */
 #map {
     height: 100%;
+    z-index: 1;
 }
+
+.controls {
+    background-color: #fff;
+    text-decoration: none;
+    border: 1px solid transparent;
+    border-radius: 2px 0 0 2px;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    outline: none;
+}
+
+#pac-input {
+    position: fixed;
+    width: 360px;
+    height: 50px;
+    margin-top: 17px;
+    font-family: Roboto;
+    font-size: 15px;
+    font-weight: 300;
+    padding-left: 12px;
+    padding-right: 9px;
+    text-overflow: ellipsis;
+    box-shadow: -1px 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+.pac-container {
+    font-family: Roboto;
+}
+
+#legend {
+    font-family: Arial, sans-serif;
+    padding: 10px;
+    margin: 10px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+}
+#legend h3 {
+    margin: 0;
+    font-size: 12.87px;
+    font-weight: 700;
+    line-height: normal;
+    padding-bottom: 12px;
+}
+#legend img {
+    vertical-align: middle;
+    width: 30px;
+    height: 30px;
+}
+
+#searchImage {
+    font-size:27px;
+    color:grey;
+}
+#searchImage:hover {
+    color: #4d90fe;
+}
+
+#buttonSearch {
+    /*margin-left: 1px;*/
+    height: 50px;
+    width: 38px;
+    padding-top: 5px;
+    margin-top: 17px;
+    border-radius: unset;
+    box-shadow: 4px 2px 6px 0 rgba(0, 0, 0, 0.3);
+}
+
+#filterImage {
+    font-size:27px;
+    color:grey;
+}
+#filterImage:hover {
+    color: #4d90fe;
+}
+
+#buttonFilter {
+    margin-left: 1px;
+    height: 50px;
+    width: 38px;
+    padding-top: 5px;
+    margin-top: 17px;
+
+    box-shadow: 2px 2px 6px 0 rgba(0, 0, 0, 0.3);
+}
+button:focus{ outline: none}
 
 /* Optional: Makes the sample page fill the window. */
 html, body {
@@ -13,4 +98,54 @@ html, body {
 
 #infoBoxTitleProtocolo {
     display: inline;
+}
+
+#logoImage {
+    position: fixed;
+    top: 0;
+    right: 0;
+    margin-right: 20px;
+    width: 14%;
+    height: 10%;
+    z-index: 2;
+    margin-top: 1%;
+}
+
+/* Icon Config */
+/* fallback */
+@font-face {
+    font-family: 'Material Icons';
+    font-style: normal;
+    font-weight: 400;
+    src: url(https://fonts.gstatic.com/s/materialicons/v36/flUhRq6tzZclQEJ-Vdg-IuiaDsNc.woff2) format('woff2');
+}
+
+.material-icons {
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 24px;
+    line-height: 1;
+    letter-spacing: normal;
+    text-transform: none;
+    white-space: nowrap;
+    word-wrap: normal;
+    direction: ltr;
+    -webkit-font-feature-settings: 'liga';
+    -webkit-font-smoothing: antialiased;
+}
+
+#type-selector {
+    color: #fff;
+    background-color: #4d90fe;
+    padding: 5px 11px 0px 11px;
+}
+
+#type-selector label {
+    font-family: Roboto;
+    font-size: 13px;
+    font-weight: 300;
+}
+#target {
+    width: 345px;
 }

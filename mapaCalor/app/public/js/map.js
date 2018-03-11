@@ -1,4 +1,6 @@
 var map;
+var lastInfoBox = undefined;
+var searchBox;
 var markers = [];
 var tot = 0;
 var geocoder;
@@ -7,8 +9,12 @@ var points;
 function initMap(pontos) {
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: -18.8723181, lng: -48.2950649},
-        zoom: 14
+        zoom: 14,
+        fullscreenControl: false
     });
+
+    configSearchBox();
+    configSubtitle();
 
     var myParser = new geoXML3.parser({map: map});
     myParser.parse('kmz/Rede_Algar_2017.kmz');
@@ -37,7 +43,7 @@ function config(callback) {
                     //console.log(point['Protocolo'] + " " + point.Latitude + " " + point.Longitude);
                     callback(index, point);
                 }
-                else if(status == google.maps.GeocoderStatus.ZERO_RESULTS){
+                else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
                     //console.log(point[''] + " " + point['Protocolo'] + " " + point['Trecho/Local']);
                 }
             });
@@ -75,12 +81,140 @@ function createMarkers(index, point) {
     });
 
     marker.addListener('click', function () {
+        if (lastInfoBox != undefined) {
+            lastInfoBox.close();
+        }
+
         map.setCenter(marker.getPosition());
         //map.setZoom(17);
         marker.info.open(map, marker);
+        lastInfoBox = marker.info;
     });
 
     tot++;
-    if (tot == points.length)
-        markerCluster = new MarkerClusterer(map, markers, {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+    if (tot == points.length) {
+        markerCluster = new MarkerClusterer(map, markers, {imagePath: 'images/m'});
+        markerCluster.setCalculator(function (markers, numStyles) {
+
+            var index = 0,
+                //Count the total number of markers in this cluster
+                count = markers.length
+
+            var div = count / 5;
+            index = Math.ceil(div);
+            index = Math.min(index, numStyles);
+
+            //Tell MarkerCluster this clusters details (and how to style it)
+            return {
+                text: count,
+                index: index
+            };
+        });
+    }
+}
+
+function configSearchBox() {
+    // Create the search box and link it to the UI element.
+    var input = document.getElementById('pac-input');
+    searchBox = new google.maps.places.SearchBox(input);
+    map.controls[google.maps.ControlPosition.TOP_CENTER].push(input);
+    map.controls[google.maps.ControlPosition.TOP_CENTER].push(document.getElementById('buttonSearch'));
+    map.controls[google.maps.ControlPosition.TOP_CENTER].push(document.getElementById('buttonFilter'));
+    // Bias the SearchBox results towards current map's viewport.
+    map.addListener('bounds_changed', function () {
+        searchBox.setBounds(map.getBounds());
+    });
+
+    searchBox.addListener('places_changed', function () {
+        var places = searchBox.getPlaces();
+
+        if (places.length == 0) {
+            return;
+        }
+
+        var bounds = new google.maps.LatLngBounds();
+        places.forEach(function (place) {
+            if (!place.geometry) {
+                console.log("Returned place contains no geometry");
+                return;
+            }
+            var icon = {
+                url: place.icon,
+                size: new google.maps.Size(71, 71),
+                origin: new google.maps.Point(0, 0),
+                anchor: new google.maps.Point(17, 34),
+                scaledSize: new google.maps.Size(25, 25)
+            };
+
+            console.log(place.name);
+
+            if (place.geometry.viewport) {
+                // Only geocodes have viewport.
+                bounds.union(place.geometry.viewport);
+            } else {
+                bounds.extend(place.geometry.location);
+            }
+        });
+        map.fitBounds(bounds);
+    });
+}
+
+function searchPlacebyButton(place) {
+    if (place == "")
+        return;
+
+    if (geocoder) {
+        geocoder.geocode({
+            'address': place
+        }, function (results, status) {
+            if (status == google.maps.GeocoderStatus.OK) {
+                var lat = results[0].geometry.location.lat();
+                var long = results[0].geometry.location.lng();
+
+                map.setCenter(new google.maps.LatLng(lat, long));
+                map.setZoom(14);
+            }
+            else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
+
+            }
+        });
+    }
+}
+
+function configSubtitle() {
+    var iconBase = 'images/';
+    var icons = {
+        leg1: {
+            name: '<= 5 rompimentos',
+            icon: iconBase + 'm1.png'
+        },
+        leg2: {
+            name: '>= 6 e <= 10 rompimentos',
+            icon: iconBase + 'm2.png'
+        },
+        leg3: {
+            name: '>= 11 e <= 15 rompimentos',
+            icon: iconBase + 'm3.png'
+        },
+        leg4: {
+            name: '>= 16 e <= 20 rompimentos',
+            icon: iconBase + 'm4.png'
+        },
+        leg5: {
+            name: '>= 21 rompimentos',
+            icon: iconBase + 'm5.png'
+        }
+    };
+
+    var legend = document.getElementById('legend');
+    for (var key in icons) {
+        var type = icons[key];
+        var name = type.name;
+        var icon = type.icon;
+        var div = document.createElement('div');
+        div.innerHTML = '<img src="' + icon + '"> ' + name;
+        legend.appendChild(div);
+    }
+
+    map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legend);
 }
