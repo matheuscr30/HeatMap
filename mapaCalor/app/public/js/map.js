@@ -61,24 +61,38 @@ function createMarkers(index, point) {
     markers.push(marker);
 
     marker.info = new google.maps.InfoWindow({
-        content: '<div class="panel panel-info">' +
-        '<h4 class="" style="display: inline">Protocolo : </h4>' +
-        '<p style="display: inline">' + point.Protocolo + '</p> <br>' +
+        content: '<div>' +
+        '<h4 class="h4-infowindow" style="display: inline">Protocolo : </h4>' +
+        '<p class="p-infowindow" style="display: inline">' + point.Protocolo + '</p> <br>' +
 
-        '<h4 class="" style="display: inline">Inicio Incidente : </h4>' +
-        '<p style="display: inline">' + point["Inicio Incidente"] + '</p> <br>' +
+        '<h4 class="h4-infowindow" style="display: inline">Inicio Incidente : </h4>' +
+        '<p class="p-infowindow" style="display: inline">' + point["Inicio Incidente"] + '</p> <br>' +
 
-        '<h4 class="" style="display: inline">Fim do Incidente : </h4>' +
-        '<p style="display: inline">' + point["Fim do Incidente"] + '</p> <br>' +
+        '<h4 class="h4-infowindow" style="display: inline">Fim do Incidente : </h4>' +
+        '<p class="p-infowindow" style="display: inline">' + point["Fim do Incidente"] + '</p> <br>' +
 
-        '<h4 class="" style="display: inline">Problema : </h4>' +
-        '<p style="display: inline">' + point.Problema + '</p> <br>' +
+        '<h4 class="h4-infowindow" style="display: inline">Problema : </h4>' +
+        '<p class="p-infowindow" style="display: inline">' + point.Problema + '</p> <br>' +
 
-        '<h4 class="" style="display: inline">Motivo : </h4>' +
-        '<p style="display: inline">' + point.Motivo + '</p> <br>' +
+        '<h4 class="h4-infowindow" style="display: inline">Motivo : </h4>' +
+        '<p class="p-infowindow" style="display: inline">' + point.Motivo + '</p> <br>' +
 
         '</div>'
     });
+
+
+    /*
+    marker.info = new google.maps.InfoWindow({
+        content: '<div class="card-info mdl-card mdl-shadow--8dp">' +
+        '  <div class="mdl-card__title">' + 'Ocorrencia #' + point.Protocolo +
+        '    <h2 class="mdl-card__title-text"></h2>' +
+        '  </div>' +
+        '  <div class="mdl-card__supporting-text">' +
+        '    Lorem ipsum dolor sit amet, consectetur adipiscing elit.' +
+        '    Mauris sagittis pellentesque lacus eleifend lacinia...' +
+        '  </div>' +
+        '</div>'
+    });*/
 
     marker.addListener('click', function () {
         if (lastInfoBox != undefined) {

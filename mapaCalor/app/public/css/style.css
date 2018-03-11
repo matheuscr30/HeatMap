@@ -100,6 +100,17 @@ html, body {
     display: inline;
 }
 
+.h4-infowindow {
+    font-size: 13px;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.p-infowindow {
+    font-size: 13px;
+    font-weight: 300;
+}
+
 #logoImage {
     position: fixed;
     top: 0;
