@@ -1,12 +1,12 @@
-var lastInfoBox = undefined;
-var markerCluster;
-var searchBox;
-var activeMarkers = [];
-var markers = [];
-var tot = 0;
-var geocoder;
-var points;
-var map;
+var lastInfoBox = undefined,
+    activeMarkers = [],
+    markerCluster,
+    markers = [],
+    searchBox,
+    geocoder,
+    tot = 0,
+    points,
+    map;
 
 //Ctrl shift s
 
@@ -20,7 +20,7 @@ function initMap(pontos) {
     configSearchBox();
     configSubtitle();
 
-    var myParser = new geoXML3.parser({
+    let myParser = new geoXML3.parser({
         map: map,
         singleInfoWindow: true
     });
@@ -56,6 +56,7 @@ function config(callback) {
                     callback(index, point);
                 }
                 else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
+                    callback(index, undefined);
                     //console.log(point[''] + " " + point['Protocolo'] + " " + point['Trecho/Local']);
                 }
             });
@@ -64,7 +65,13 @@ function config(callback) {
 }
 
 function createMarkers(index, point) {
-    var marker = new google.maps.Marker({
+    if(point === undefined){
+        tot++;
+        configMarkerCluster();
+        return;
+    }
+
+    let marker = new google.maps.Marker({
         position: new google.maps.LatLng(point.Latitude, point.Longitude),
         title: point.Protocolo,
         year: point.year,
@@ -119,16 +126,18 @@ function createMarkers(index, point) {
     });
 
     tot++;
+    configMarkerCluster();
+}
+
+function configMarkerCluster(){
     if (tot == points.length) {
         activeMarkers = markers;
         markerCluster = new MarkerClusterer(map, markers, {imagePath: 'images/m'});
         markerCluster.setCalculator(function (markers, numStyles) {
 
-            var index = 0,
-                //Count the total number of markers in this cluster
-                count = markers.length
+            let index, count = markers.length;
 
-            var div = count / 5;
+            let div = count / 5;
             index = Math.ceil(div);
             index = Math.min(index, numStyles);
 
@@ -143,7 +152,7 @@ function createMarkers(index, point) {
 
 function configSearchBox() {
     // Create the search box and link it to the UI element.
-    var input = document.getElementById('pac-input');
+    let input = document.getElementById('pac-input');
     searchBox = new google.maps.places.SearchBox(input);
     map.controls[google.maps.ControlPosition.TOP_CENTER].push(input);
     map.controls[google.maps.ControlPosition.TOP_CENTER].push(document.getElementById('buttonSearch'));
@@ -154,25 +163,18 @@ function configSearchBox() {
     });
 
     searchBox.addListener('places_changed', function () {
-        var places = searchBox.getPlaces();
+        let places = searchBox.getPlaces();
 
         if (places.length == 0) {
             return;
         }
 
-        var bounds = new google.maps.LatLngBounds();
+        let bounds = new google.maps.LatLngBounds();
         places.forEach(function (place) {
             if (!place.geometry) {
                 console.log("Returned place contains no geometry");
                 return;
             }
-            var icon = {
-                url: place.icon,
-                size: new google.maps.Size(71, 71),
-                origin: new google.maps.Point(0, 0),
-                anchor: new google.maps.Point(17, 34),
-                scaledSize: new google.maps.Size(25, 25)
-            };
 
             console.log(place.name);
 
@@ -196,8 +198,8 @@ function searchPlaceByButton(place) {
             'address': place
         }, function (results, status) {
             if (status == google.maps.GeocoderStatus.OK) {
-                var lat = results[0].geometry.location.lat();
-                var long = results[0].geometry.location.lng();
+                let lat = results[0].geometry.location.lat();
+                let long = results[0].geometry.location.lng();
 
                 map.setCenter(new google.maps.LatLng(lat, long));
                 map.setZoom(14);
@@ -210,8 +212,8 @@ function searchPlaceByButton(place) {
 }
 
 function configSubtitle() {
-    var iconBase = 'images/';
-    var icons = {
+    let iconBase = 'images/';
+    let icons = {
         leg1: {
             name: '<= 5 rompimentos',
             icon: iconBase + 'm1.png'
@@ -234,12 +236,12 @@ function configSubtitle() {
         }
     };
 
-    var legend = document.getElementById('legend');
-    for (var key in icons) {
-        var type = icons[key];
-        var name = type.name;
-        var icon = type.icon;
-        var div = document.createElement('div');
+    let legend = document.getElementById('legend');
+    for (let key in icons) {
+        let type = icons[key];
+        let name = type.name;
+        let icon = type.icon;
+        let div = document.createElement('div');
         div.innerHTML = '<img src="' + icon + '"> ' + name;
         legend.appendChild(div);
     }
