@@ -13,7 +13,7 @@ module.exports.index = function (application, req, res) {
 module.exports.login = function (application, req, res) {
     let body = req.body;
 
-    if (body['username'] === '' || body['password'] === '' || body['username'] !== 'algartelecom2018' || body['password'] !== 'tstrt2018') {
+    if (body['username'] === '' || body['password'] === '' || body['username'] !== 'youruser' || body['password'] !== 'yourpassword') {
         res.render('index', {
             errors: JSON.stringify(true)
         });

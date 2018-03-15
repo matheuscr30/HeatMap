@@ -1,10 +1,14 @@
-var map;
 var lastInfoBox = undefined;
+var markerCluster;
 var searchBox;
+var activeMarkers = [];
 var markers = [];
 var tot = 0;
 var geocoder;
 var points;
+var map;
+
+//Ctrl shift s
 
 function initMap(pontos) {
     map = new google.maps.Map(document.getElementById('map'), {
@@ -16,7 +20,10 @@ function initMap(pontos) {
     configSearchBox();
     configSubtitle();
 
-    var myParser = new geoXML3.parser({map: map});
+    var myParser = new geoXML3.parser({
+        map: map,
+        singleInfoWindow: true
+    });
     myParser.parse('kmz/Rede_Algar_2017.kmz');
 
     points = pontos;
@@ -33,6 +40,11 @@ function initMap(pontos) {
 function config(callback) {
     $.each(points, function (index, point) {
         //console.log(point['Protocolo'] + " " + point['Trecho/Local']);
+        let aux = Date.parse(point['Data Abertura']);
+        let date = new Date(aux);
+        point.year = date.getFullYear();
+        point.month = date.getMonth();
+
         if (geocoder) {
             geocoder.geocode({
                 'address': point['Trecho/Local']
@@ -55,6 +67,8 @@ function createMarkers(index, point) {
     var marker = new google.maps.Marker({
         position: new google.maps.LatLng(point.Latitude, point.Longitude),
         title: point.Protocolo,
+        year: point.year,
+        month: point.month,
         map: map
     });
 
@@ -79,7 +93,6 @@ function createMarkers(index, point) {
 
         '</div>'
     });
-
 
     /*
     marker.info = new google.maps.InfoWindow({
@@ -107,6 +120,7 @@ function createMarkers(index, point) {
 
     tot++;
     if (tot == points.length) {
+        activeMarkers = markers;
         markerCluster = new MarkerClusterer(map, markers, {imagePath: 'images/m'});
         markerCluster.setCalculator(function (markers, numStyles) {
 
@@ -189,7 +203,7 @@ function searchPlaceByButton(place) {
                 map.setZoom(14);
             }
             else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
-
+                //do something with error
             }
         });
     }
@@ -231,4 +245,26 @@ function configSubtitle() {
     }
 
     map.controls[google.maps.ControlPosition.LEFT_BOTTOM].push(legend);
+}
+
+function filterMarkers(month, year) {
+    activeMarkers = [];
+
+    if (month == -1 && year == -1)
+        activeMarkers = markers;
+    else {
+        for (let i = 0; i < markers.length; i++) {
+            let marker = markers[i];
+
+            if ((marker.year == year && marker.month == month) ||
+                (year == -1 && marker.month == month) ||
+                (marker.year == year && month == -1)) {
+
+                activeMarkers.push(marker);
+            }
+        }
+    }
+
+    markerCluster.clearMarkers();
+    markerCluster.addMarkers(activeMarkers);
 }

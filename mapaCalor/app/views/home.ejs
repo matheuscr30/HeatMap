@@ -13,6 +13,7 @@
     <script src="js/geoxml3-master/kmz/ZipFile.complete.js"></script>
     <script src="js/geoxml3-master/kmz/geoxml3.js"></script>
     <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/mdl/material.min.js"></script>
 
     <!-- YUJO - tem api do CONNECT-MASTER? -->
     <script type="text/javascript">
@@ -29,13 +30,18 @@
             });
 
             var dialog = document.querySelector('dialog');
-            if (! dialog.showModal) {
+            if (!dialog.showModal) {
                 dialogPolyfill.registerDialog(dialog);
             }
             $('#buttonFilter').click(function () {
                 dialog.showModal();
             });
-            dialog.querySelector('.close').addEventListener('click', function() {
+            dialog.querySelector('.close').addEventListener('click', function () {
+                dialog.close();
+            });
+
+            $('#buttonDialogApply').click(function () {
+                filterMarkers($('#month').val(), $('#year').val());
                 dialog.close();
             });
         });
@@ -55,22 +61,46 @@
 <div id="map"></div>
 <img src="images/algar-logo.png" id="logoImage">
 
-<dialog class="mdl-dialog">
-    <h4 class="mdl-dialog__title">Allow data collection?</h4>
+<dialog class="mdl-dialog" id="dialogFiltrar">
+    <h4 class="mdl-dialog__title">Filtrar Ocorrencias</h4>
     <div class="mdl-dialog__content">
-        <p>
-            Allowing us to collect data will let us get you the information you want faster.
-        </p>
+        <form>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <select class="mdl-textfield__input" id="year" name="year">
+                    <option value="-1">Todos</option>
+                    <option value="2017">2017</option>
+                    <option value="2018">2018</option>
+                </select>
+                <label class="mdl-textfield__label" for="year" style="padding-left: 5px;">Ano</label>
+            </div>
+            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <select class="mdl-textfield__input" id="month" name="month">
+                    <option value="-1">Todos</option>
+                    <option value="0">Janeiro</option>
+                    <option value="1">Fevereiro</option>
+                    <option value="2">Março</option>
+                    <option value="3">Abril</option>
+                    <option value="4">Maio</option>
+                    <option value="5">Junho</option>
+                    <option value="6">Julho</option>
+                    <option value="7">Agosto</option>
+                    <option value="8">Setembro</option>
+                    <option value="9">Outubro</option>
+                    <option value="10">Novembro</option>
+                    <option value="11">Dezembro</option>
+                </select>
+                <label class="mdl-textfield__label" for="month" style="padding-left: 5px;">Mes</label>
+            </div>
+        </form>
     </div>
     <div class="mdl-dialog__actions">
-        <button type="button" class="mdl-button">Agree</button>
-        <button type="button" class="mdl-button close">Disagree</button>
+        <button id="buttonDialogApply" type="button" class="mdl-button mdl-js-button mdl-button--primary">Aplicar</button>
+        <button type="button" class="mdl-button mdl-js-button mdl-button--accent close">Cancelar</button>
     </div>
 </dialog>
 
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5NNONZMPnkrdvvCWJ9ordrYcybEK16mo&libraries=places&callback=initialize"
         async defer></script>
-<script src="js/mdl/material.min.js"></script>
 
 </body>
 </html>

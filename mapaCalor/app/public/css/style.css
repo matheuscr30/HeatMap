@@ -122,11 +122,27 @@ html, body {
     margin-top: 1%;
 }
 
+.geoxml3_infowindow > h3 {
+    font-size: 13px;
+    font-weight: 700;
+    line-height: normal;
+    margin: 0;
+}
+
 .card-login {
     padding-left: 25px;
     padding-right: 25px;
     padding-bottom: 25px;
     margin-left: 50px;
+}
+
+#dialogFiltrar {
+    box-shadow: 0 9px 46px 8px rgba(0,0,0,.14), 0 11px 15px -7px rgba(0,0,0,.12), -1px 2px 8px 0px rgba(0,0,0,.2);
+    width: 350px;
+}
+
+#dialogFiltrar > .mdl-dialog__title {
+    font-size: 2rem;
 }
 
 /* Icon Config */
