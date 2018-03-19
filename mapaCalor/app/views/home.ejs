@@ -24,25 +24,48 @@
             });
         }
 
+        function r(f) {
+            /in/.test(document.readyState) ? setTimeout('r(' + f + ')', 9) : f()
+        }
+
         $(document).ready(function () {
             $('#buttonSearch').click(function () {
                 searchPlaceByButton($('#pac-input').val());
             });
 
-            var dialog = document.querySelector('dialog');
-            if (!dialog.showModal) {
-                dialogPolyfill.registerDialog(dialog);
+            $('#navButtonRotas').click(function () {
+                window.location.replace('/rotas');
+            });
+
+            $('#navButtonRompimentos').click(function () {
+                window.location.replace('/rompimentos');
+            });
+
+            var dialogFilter = document.querySelector('#dialogFiltrar');
+            if (!dialogFilter.showModal) {
+                dialogPolyfill.registerDialog(dialogFilter);
             }
             $('#buttonFilter').click(function () {
-                dialog.showModal();
+                dialogFilter.showModal();
             });
-            dialog.querySelector('.close').addEventListener('click', function () {
-                dialog.close();
+            dialogFilter.querySelector('.close').addEventListener('click', function () {
+                dialogFilter.close();
             });
 
             $('#buttonDialogApply').click(function () {
                 filterMarkers($('#month').val(), $('#year').val());
-                dialog.close();
+                dialogFilter.close();
+            });
+
+            var dialogUpdate = document.querySelector('#dialogAtualizar');
+            if (!dialogUpdate.showModal) {
+                dialogPolyfill.registerDialog(dialogUpdate);
+            }
+            $('#buttonUpdate').click(function () {
+                dialogUpdate.showModal();
+            });
+            dialogUpdate.querySelector('.close').addEventListener('click', function () {
+                dialogUpdate.close();
             });
         });
     </script>
@@ -55,8 +78,9 @@
 
 <div id="legend" class="controls"><h3>Ocorrências por Cluster</h3></div>
 <input class="controls" id="pac-input" type="text" placeholder="Digite um endereço ...">
-<button id="buttonSearch" class="controls"><i class="material-icons" id="searchImage">search</i></button>
-<button id="buttonFilter" class="controls"><i class="material-icons" id="filterImage">tune</i></button>
+<button id="buttonSearch" class="controls"><i class="material-icons toolbarImages">search</i></button>
+<button id="buttonFilter" class="controls"><i class="material-icons toolbarImages">tune</i></button>
+<button id="buttonUpdate" class="controls"><i class="material-icons toolbarImages">file_upload</i></button>
 
 <div id="map"></div>
 <img src="images/algar-logo.png" id="logoImage">
@@ -95,6 +119,26 @@
     </div>
     <div class="mdl-dialog__actions">
         <button id="buttonDialogApply" type="button" class="mdl-button mdl-js-button mdl-button--primary">Aplicar</button>
+        <button type="button" class="mdl-button mdl-js-button mdl-button--accent close">Cancelar</button>
+    </div>
+</dialog>
+
+<dialog class="mdl-dialog" id="dialogAtualizar">
+    <h3 class="mdl-layout__title" style="text-align: center; margin-bottom: 10px">
+        Configurações
+    </h3>
+    <div class="mdl-dialog__content">
+        <div class="mdl-navigation__link navButton" id="navButtonRotas">
+            <i class="material-icons" style="font-size: 33px;">near_me</i>
+            <a class="navigation-item" href="/rotas">Rotas</a>
+        </div>
+
+        <div class="mdl-navigation__link navButton" id="navButtonRompimentos">
+            <i class="material-icons" style="font-size: 33px;">warning</i>
+            <a class="navigation-item" href="/rompimentos">Rompimentos</a>
+        </div>
+    </div>
+    <div class="mdl-dialog__actions">
         <button type="button" class="mdl-button mdl-js-button mdl-button--accent close">Cancelar</button>
     </div>
 </dialog>

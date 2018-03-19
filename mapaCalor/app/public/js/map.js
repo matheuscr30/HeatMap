@@ -154,6 +154,8 @@ function configSearchBox() {
     // Create the search box and link it to the UI element.
     let input = document.getElementById('pac-input');
     searchBox = new google.maps.places.SearchBox(input);
+
+    map.controls[google.maps.ControlPosition.TOP_CENTER].push(document.getElementById('buttonUpdate'));
     map.controls[google.maps.ControlPosition.TOP_CENTER].push(input);
     map.controls[google.maps.ControlPosition.TOP_CENTER].push(document.getElementById('buttonSearch'));
     map.controls[google.maps.ControlPosition.TOP_CENTER].push(document.getElementById('buttonFilter'));

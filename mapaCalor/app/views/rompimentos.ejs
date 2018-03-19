@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no"/>
+    <title>Mapa de Aberturas e Rompimentos</title>
+
+    <link rel="stylesheet" href="css/mdl/material-icons.css">
+    <link rel="stylesheet" href="css/mdl/material.indigo-pink.min.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/jquery-3.3.1.min.js"></script>
+    <script src="js/mdl/material.min.js"></script>
+</head>
+<body>
+<script type="text/javascript">
+    function r(message, f) {
+        /in/.test(document.readyState) ? setTimeout('r(' + '"' + message + '",' + f + ')', 9) : f(message)
+    }
+
+    $(document).ready(function () {
+        $('#uploadBtn').change(function () {
+            $('#uploadFile').val(this.files[0].name);
+        });
+
+        $('#navButtonRotas').click(function () {
+            window.location.replace("/rotas");
+        });
+
+        $('#navButtonRompimentos').click(function () {
+            window.location.replace("/rompimentos");
+        });
+
+        $('#buttonBackToMap').click(function () {
+            window.location.replace("/home");
+        });
+
+        var errorAlert = JSON.parse('<%- errorAlert %>');
+        if (errorAlert && errorAlert !== "") {
+            alert(errorAlert);
+            window.location.replace("/home");
+        }
+
+        var messageDialog = JSON.parse('<%- messageDialog %>');
+        if (messageDialog && messageDialog !== "") {
+            r(messageDialog, function (message) {
+                var snackbarContainer = document.querySelector('#toast-error');
+                var data = {message: message};
+                snackbarContainer.MaterialSnackbar.showSnackbar(data);
+            });
+        }
+    });
+
+</script>
+
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+    <header class="mdl-layout__header">
+        <div class="mdl-layout__header-row">
+            <span class="mdl-layout__title">Mapa de Aberturas e Rompimentos</span>
+
+            <!-- Add spacer, to align navigation to the right -->
+            <!-- Navigation. We hide it in small screens. -->
+            <div class="mdl-layout-spacer"></div>
+            <button id="buttonBackToMap" class="mdl-button mdl-js-button mdl-button--icon">
+                <i class="material-icons">map</i>
+            </button>
+        </div>
+    </header>
+    <div class="mdl-layout__drawer">
+        <div class="mdl-layout__title" style="background-color: rgb(63,81,181); color: white;">
+            Configurações
+        </div>
+        <nav class="mdl-navigation">
+            <div class="mdl-navigation__link" id="navButtonRotas">
+                <i class="material-icons">near_me</i>
+                <a class="navigation-item" href="/rotas">Rotas</a>
+            </div>
+
+            <div class="mdl-navigation__link" id="navButtonRompimentos">
+                <i class="material-icons">warning</i>
+                <a class="navigation-item" href="/rompimentos">Rompimentos</a>
+            </div>
+        </nav>
+    </div>
+    <main class="mdl-layout__content">
+        <div class="page-content">
+            <div class="mdl-grid">
+                <div class="mdl-cell mdl-cell--4-col"></div>
+                <div class="mdl-cell mdl-cell--4-col"></div>
+                <div class="mdl-cell mdl-cell--4-col"></div>
+            </div>
+            <div class="mdl-grid">
+                <div class="mdl-cell mdl-cell--4-col"></div>
+                <div class="mdl-cell mdl-cell--4-col">
+
+                    <div class="demo-card-wide mdl-card mdl-shadow--8dp card-login">
+                        <h4 align="center">Atualizaçao de Rompimentos</h4>
+
+                        <div align="center">
+                            <form action="/rompimentos" method="post" enctype="multipart/form-data">
+                                <div class="mdl-textfield mdl-js-textfield mdl-textfield--file">
+                                    <input class="mdl-textfield__input" placeholder="File" type="text" id="uploadFile"
+                                           readonly/>
+                                    <div class="mdl-button mdl-button--primary mdl-button--icon mdl-button--file">
+                                        <i class="material-icons">attach_file</i><input type="file" id="uploadBtn" name="arquivoRompimento">
+                                    </div>
+                                </div>
+
+                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                                        style="margin-top: 10px" type="submit">
+                                    Enviar
+                                </button>
+                            </form>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="mdl-cell mdl-cell--4-col"></div>
+            </div>
+            <div class="mdl-grid">
+                <div class="mdl-cell mdl-cell--4-col"></div>
+                <div class="mdl-cell mdl-cell--4-col"></div>
+                <div class="mdl-cell mdl-cell--4-col"></div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<div id="toast-error" class="mdl-js-snackbar mdl-snackbar">
+    <div class="mdl-snackbar__text"></div>
+    <button class="mdl-snackbar__action" type="button"></button>
+</div>
+
+</body>
+</html>

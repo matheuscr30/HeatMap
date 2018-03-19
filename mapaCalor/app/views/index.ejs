@@ -13,16 +13,27 @@
 </head>
 <body>
 <script type="text/javascript">
-    function r(f){/in/.test(document.readyState)?setTimeout('r('+f+')',9):f()}
+    function r(f) {
+        /in/.test(document.readyState) ? setTimeout('r(' + f + ')', 9) : f()
+    }
+
     $(document).ready(function () {
         var errors = JSON.parse('<%- errors %>');
-        if(errors){
-            r(function(){
+        if (errors) {
+            r(function () {
                 var snackbarContainer = document.querySelector('#toast-error');
                 var data = {message: "Usuario e/ou Senha Invalidos"};
                 snackbarContainer.MaterialSnackbar.showSnackbar(data);
             });
         }
+
+        $('#navButtonRotas').click(function () {
+            window.location.replace("/rotas");
+        });
+
+        $('#navButtonRompimentos').click(function () {
+            window.location.replace("/rompimentos");
+        });
     });
 
 </script>
@@ -30,12 +41,11 @@
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
     <header class="mdl-layout__header">
         <div class="mdl-layout__header-row">
-            Mapa de Aberturas e Rompimentos
+            <span class="mdl-layout__title">Mapa de Aberturas e Rompimentos</span>
 
             <!-- Add spacer, to align navigation to the right -->
             <!-- Navigation. We hide it in small screens. -->
-            <nav class="mdl-navigation mdl-layout--large-screen-only">
-            </nav>
+            <div class="mdl-layout-spacer"></div>
         </div>
     </header>
     <main class="mdl-layout__content">
@@ -64,7 +74,8 @@
                                     <label class="mdl-textfield__label" for="password">Senha</label>
                                 </div>
 
-                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" style="margin-top: 10px" type="submit">
+                                <button class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored"
+                                        style="margin-top: 10px" type="submit">
                                     Entrar
                                 </button>
                             </form>
