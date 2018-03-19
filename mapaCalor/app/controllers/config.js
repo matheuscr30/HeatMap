@@ -24,7 +24,7 @@ module.exports.postRotas = function (application, req, res) {
         if (extension != "kmz")
             return res.render('rotas', {
                 errorAlert: JSON.stringify(""),
-                messageDialog: JSON.stringify("Formato nao suportado")
+                messageDialog: JSON.stringify("Formato não suportado")
             });
 
         fs.readFile(oldPath, function (err, data) {
@@ -69,7 +69,7 @@ module.exports.postRompimentos = function (application, req, res) {
         if (extension != "xlsx")
             return res.render('rompimentos', {
                 errorAlert: JSON.stringify(""),
-                messageDialog: JSON.stringify("Formato nao suportado")
+                messageDialog: JSON.stringify("Formato não suportado")
             });
 
         fs.readFile(oldPath, function (err, data) {
