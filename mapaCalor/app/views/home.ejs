@@ -10,18 +10,23 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel=icon href="images/favicon.png">
 
-    <script src="js/geoxml3-master/kmz/ZipFile.complete.js"></script>
-    <script src="js/geoxml3-master/kmz/geoxml3.js"></script>
     <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/mdl/material.min.js"></script>
 
-    <!-- YUJO - tem api do CONNECT-MASTER? -->
+    <script src="js/markerclusterer.js" async></script>
+    <script src="js/map.js" async></script>
+
+    <script src="js/mdl/material.min.js" async></script>
+
     <script type="text/javascript">
         function initialize() {
-            $.get("/getPoints", function (data) {
-                var points = data.points;
-                initMap(points);
+            $.getScript("js/geoxml3-master/polys/geoxml3.js", () => {
+                $.get("/getPoints", function (data) {
+                    var points = data.points;
+                    initMap(points);
+                });
             });
+
+            $.getScript("js/geoxml3-master/ProjectedOverlay.js", () => { });
         }
 
         function r(f) {
@@ -29,6 +34,7 @@
         }
 
         $(document).ready(function () {
+            //initialize();
             $('#buttonSearch').click(function () {
                 searchPlaceByButton($('#pac-input').val());
             });
@@ -69,9 +75,6 @@
             });
         });
     </script>
-
-    <script src="js/markerclusterer.js"></script>
-    <script src="js/map.js"></script>
 
 </head>
 <body>
@@ -143,8 +146,6 @@
     </div>
 </dialog>
 
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5NNONZMPnkrdvvCWJ9ordrYcybEK16mo&libraries=places&callback=initialize"
-        async defer></script>
-
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC5NNONZMPnkrdvvCWJ9ordrYcybEK16mo&libraries=places&callback=initialize" async defer></script>
 </body>
 </html>

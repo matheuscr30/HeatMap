@@ -11,3 +11,7 @@ N
 mapaCalor/app.js,e/d/edb318cd747bd8ff1df0dd5307fd07b74cf77e51
 M
 mapaCalor/app/routes/index.js,f/8/f8de99d1d44e657dd02c7f931b68dc6c01fa523c
+M
+mapaCalor/app/views/rotas.ejs,7/1/71e42ed51f501cfd0f455c4b18c92518bd4230be
+S
+#mapaCalor/app/controllers/config.js,e/1/e15d4aee25f7457744776e92ca513b2aef00bcae

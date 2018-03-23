@@ -1,5 +1,4 @@
-var formidable = require('formidable'),
-    path = require('path'),
+var path = require('path'),
     fs = require('fs');
 
 module.exports.rotas = function (application, req, res) {
@@ -11,37 +10,33 @@ module.exports.rotas = function (application, req, res) {
 };
 
 module.exports.postRotas = function (application, req, res) {
-    let form = new formidable.IncomingForm();
+    //console.log(req.files);
+    //console.log(req.files.arquivoRota.name);
 
-    form.parse(req, function (err, fields, files) {
-        console.log(files);
-        console.log(files.arquivoRota.name);
-        let extension = files.arquivoRota.name.split('.')[1];
-        let oldPath = files.arquivoRota.path;
-        let newPath = path.join(path.dirname(__dirname), 'public', 'kmz');
-        newPath += "/" + files.arquivoRota.name;     //change to a fixed name
+    let extension = req.files.arquivoRota.name.split('.')[1];
+    let oldPath = req.files.arquivoRota.path;
+    let newPath = path.join(path.dirname(__dirname), 'public', 'kml');
+    newPath += "/" + "rotas.kml";     //change to a fixed name
 
-        if (extension != "kmz")
-            return res.render('rotas', {
-                errorAlert: JSON.stringify(""),
-                messageDialog: JSON.stringify("Formato não suportado")
-            });
+    if (extension != "kml")
+        return res.render('rotas', {
+            errorAlert: JSON.stringify(""),
+            messageDialog: JSON.stringify("Formato não suportado")
+        });
 
-        fs.readFile(oldPath, function (err, data) {
-            fs.writeFile(newPath, data, function (err) {
-                fs.unlink(oldPath, function (err) {
-                    if (err)
-                        return res.render('rotas', {
-                            errorAlert: JSON.stringify(""),
-                            messageDialog: JSON.stringify("Desculpe, ocorreu um erro interno")
-                        });
-                    else
-                        return res.render('rotas', {
-                            errorAlert: JSON.stringify(""),
-                            messageDialog: JSON.stringify("Rotas atualizadas com sucesso")
-                        });
-
-                });
+    fs.readFile(oldPath, function (err, data) {
+        fs.writeFile(newPath, data, function (err) {
+            fs.unlink(oldPath, function (err) {
+                if (err)
+                    return res.render('rotas', {
+                        errorAlert: JSON.stringify(""),
+                        messageDialog: JSON.stringify("Desculpe, ocorreu um erro interno")
+                    });
+                else
+                    return res.render('rotas', {
+                        errorAlert: JSON.stringify(""),
+                        messageDialog: JSON.stringify("Rotas atualizadas com sucesso")
+                    });
             });
         });
     });
@@ -56,37 +51,31 @@ module.exports.rompimentos = function (application, req, res) {
 };
 
 module.exports.postRompimentos = function (application, req, res) {
-    let form = new formidable.IncomingForm();
 
-    form.parse(req, function (err, fields, files) {
-        //console.log(files);
-        //console.log(files.arquivoRompimento.name);
-        let extension = files.arquivoRompimento.name.split('.')[1];
-        let oldPath = files.arquivoRompimento.path;
-        let newPath = path.join(path.dirname(__dirname), 'public', 'xlsx');
-        newPath += "/trechosatualizados.xlsx";
+    let extension = req.files.arquivoRompimento.name.split('.')[1];
+    let oldPath = req.files.arquivoRompimento.path;
+    let newPath = path.join(path.dirname(__dirname), 'public', 'xlsx');
+    newPath += "/trechosatualizados.xlsx";
 
-        if (extension != "xlsx")
-            return res.render('rompimentos', {
-                errorAlert: JSON.stringify(""),
-                messageDialog: JSON.stringify("Formato não suportado")
-            });
+    if (extension != "xlsx")
+        return res.render('rompimentos', {
+            errorAlert: JSON.stringify(""),
+            messageDialog: JSON.stringify("Formato não suportado")
+        });
 
-        fs.readFile(oldPath, function (err, data) {
-            fs.writeFile(newPath, data, function (err) {
-                fs.unlink(oldPath, function (err) {
-                    if (err)
-                        return res.render('rompimentos', {
-                            errorAlert: JSON.stringify(""),
-                            messageDialog: JSON.stringify("Desculpe, ocorreu um erro interno")
-                        });
-                    else
-                        return res.render('rompimentos', {
-                            errorAlert: JSON.stringify(""),
-                            messageDialog: JSON.stringify("Rompimentos atualizados com sucesso")
-                        });
-
-                });
+    fs.readFile(oldPath, function (err, data) {
+        fs.writeFile(newPath, data, function (err) {
+            fs.unlink(oldPath, function (err) {
+                if (err)
+                    return res.render('rompimentos', {
+                        errorAlert: JSON.stringify(""),
+                        messageDialog: JSON.stringify("Desculpe, ocorreu um erro interno")
+                    });
+                else
+                    return res.render('rompimentos', {
+                        errorAlert: JSON.stringify(""),
+                        messageDialog: JSON.stringify("Rompimentos atualizados com sucesso")
+                    });
             });
         });
     });

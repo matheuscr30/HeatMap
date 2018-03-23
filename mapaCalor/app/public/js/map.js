@@ -20,11 +20,11 @@ function initMap(pontos) {
     configSearchBox();
     configSubtitle();
 
-    let myParser = new geoXML3.parser({
+    var geoXml = new geoXML3.parser({
         map: map,
         singleInfoWindow: true
     });
-    myParser.parse('kmz/Rede_Algar_2017.kmz');
+    geoXml.parse('kml/rotas.kml');
 
     points = pontos;
 
@@ -100,19 +100,6 @@ function createMarkers(index, point) {
 
         '</div>'
     });
-
-    /*
-    marker.info = new google.maps.InfoWindow({
-        content: '<div class="card-info mdl-card mdl-shadow--8dp">' +
-        '  <div class="mdl-card__title">' + 'Ocorrencia #' + point.Protocolo +
-        '    <h2 class="mdl-card__title-text"></h2>' +
-        '  </div>' +
-        '  <div class="mdl-card__supporting-text">' +
-        '    Lorem ipsum dolor sit amet, consectetur adipiscing elit.' +
-        '    Mauris sagittis pellentesque lacus eleifend lacinia...' +
-        '  </div>' +
-        '</div>'
-    });*/
 
     marker.addListener('click', function () {
         if (lastInfoBox != undefined) {

@@ -35,6 +35,7 @@
  *
  * @constructor
  */
+
 // only if Google Maps API included
 if (!!window.google && !! google.maps) { 
 function MultiGeometry(multiGeometryOptions) {
