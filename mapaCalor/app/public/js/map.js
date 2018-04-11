@@ -17,6 +17,8 @@ function initMap(pontos) {
         fullscreenControl: false
     });
 
+    geocoder = new google.maps.Geocoder();
+
     configSearchBox();
     configSubtitle();
 
@@ -31,41 +33,44 @@ function initMap(pontos) {
     map.setCenter(new google.maps.LatLng(-18.8723181, -48.2950649));
     map.setZoom(14);
 
-    geocoder = new google.maps.Geocoder();
-
-    //console.log(points.length);
-    config(createMarkers);
+    config(createMarkers, points);
 }
 
-function config(callback) {
+function config(callback, points) {
+    //console.log(points.length);
     $.each(points, function (index, point) {
-        //console.log(point['Protocolo'] + " " + point['Trecho/Local']);
-        let aux = Date.parse(point['Data Abertura']);
+        let aux = Date.parse(point['Inicio Incidente']);
         let date = new Date(aux);
         point.year = date.getFullYear();
         point.month = date.getMonth();
 
-        if (geocoder) {
-            geocoder.geocode({
-                'address': point['Trecho/Local']
-            }, function (results, status) {
-                if (status == google.maps.GeocoderStatus.OK) {
-                    point.Latitude = results[0].geometry.location.lat();
-                    point.Longitude = results[0].geometry.location.lng();
-                    //console.log(point['Protocolo'] + " " + point.Latitude + " " + point.Longitude);
-                    callback(index, point);
-                }
-                else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
-                    callback(index, undefined);
-                    //console.log(point[''] + " " + point['Protocolo'] + " " + point['Trecho/Local']);
-                }
-            });
+        searchPoint(index, point, callback);
+    });
+}
+
+function searchPoint(index, point, callback){
+    geocoder.geocode({
+        'address': point['Local Rompimento']
+    }, function (results, status) {
+        if (status == google.maps.GeocoderStatus.OK) {
+            point.Latitude = results[0].geometry.location.lat();
+            point.Longitude = results[0].geometry.location.lng();
+            callback(index, point);
+        }
+        else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
+            callback(index, undefined);
+        }
+        else if (status == google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
+            setTimeout(function() {
+                searchPoint(index, point, callback);
+            }, 100 );
         }
     });
 }
 
 function createMarkers(index, point) {
-    if(point === undefined){
+    //console.log(index + " point");
+    if (point === undefined) {
         tot++;
         configMarkerCluster();
         return;
@@ -93,10 +98,10 @@ function createMarkers(index, point) {
         '<p class="p-infowindow" style="display: inline">' + point["Fim do Incidente"] + '</p> <br>' +
 
         '<h4 class="h4-infowindow" style="display: inline">Problema : </h4>' +
-        '<p class="p-infowindow" style="display: inline">' + point.Problema + '</p> <br>' +
+        '<p class="p-infowindow" style="display: inline">' + point["Origem do Problema"] + '</p> <br>' +
 
         '<h4 class="h4-infowindow" style="display: inline">Motivo : </h4>' +
-        '<p class="p-infowindow" style="display: inline">' + point.Motivo + '</p> <br>' +
+        '<p class="p-infowindow" style="display: inline">' + point["Causa"] + '</p> <br>' +
 
         '</div>'
     });
@@ -116,8 +121,18 @@ function createMarkers(index, point) {
     configMarkerCluster();
 }
 
-function configMarkerCluster(){
-    if (tot == points.length) {
+function configMarkerCluster() {
+    //console.log(tot + " " + points.length);
+
+    if(tot === points.length)
+        $("#loadingBar").addClass("hidden");
+
+    if(markerCluster){
+        activeMarkers = markers;
+        markerCluster.clearMarkers();
+        markerCluster.addMarkers(activeMarkers);
+    }
+    else {
         activeMarkers = markers;
         markerCluster = new MarkerClusterer(map, markers, {imagePath: 'images/m'});
         markerCluster.setCalculator(function (markers, numStyles) {

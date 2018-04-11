@@ -13,7 +13,7 @@ module.exports = function (application) {
         application.app.controllers.config.rompimentos(application, req, res);
     });
 
-    application.post('/rompimentos', function (req, res) {
+    application.post('/rompimentos', multipartMiddleware, function (req, res) {
         application.app.controllers.config.postRompimentos(application, req, res);
     });
 };

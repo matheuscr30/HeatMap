@@ -15,3 +15,9 @@ M
 mapaCalor/app/views/rotas.ejs,7/1/71e42ed51f501cfd0f455c4b18c92518bd4230be
 S
 #mapaCalor/app/controllers/config.js,e/1/e15d4aee25f7457744776e92ca513b2aef00bcae
+J
+mapaCalor/config/server.js,b/a/ba1650f1c86e2cbd69be9a7aa46c0297da941a99
+S
+#mapaCalor/app/views/rompimentos.ejs,8/5/853a99cb227469b54c7d3f9276bcf9d0c65b796a
+N
+mapaCalor/app/routes/config.js,e/7/e7895ac777b424a005ec28c6345e44217807f1f3
