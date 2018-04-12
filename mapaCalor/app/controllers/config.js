@@ -63,6 +63,8 @@ module.exports.postRompimentos = function (application, req, res) {
             messageDialog: JSON.stringify("Formato não suportado")
         });
 
+    application.app.controllers.points.refresh(application, req, res);
+
     fs.readFile(oldPath, function (err, data) {
         fs.writeFile(newPath, data, function (err) {
             fs.unlink(oldPath, function (err) {

@@ -9,6 +9,7 @@
   "author": "Matheus Cunha Reis",
   "license": "",
   "dependencies": {
+    "@google/maps": "^0.4.6",
     "body-parser": "^1.18.2",
     "connect-multiparty": "^2.1.0",
     "consign": "^0.1.6",
@@ -17,6 +18,7 @@
     "express-session": "^1.15.6",
     "formidable": "^1.2.0",
     "fs-extra": "^5.0.0",
+    "mongoose": "^5.0.14",
     "path": "^0.12.7",
     "xlsx": "^0.11.19"
   }

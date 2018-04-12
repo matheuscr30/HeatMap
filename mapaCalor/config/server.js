@@ -1,16 +1,13 @@
-/* importar o módulo do framework express */
-var express = require('express');
-
-/* importar o módulo do consign */
-var consign = require('consign');
-
-/* importar o módulo do body-parser */
-var bodyParser = require('body-parser');
-
-var expressSession = require('express-session');
+const expressSession = require('express-session');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const express = require('express');
+const consign = require('consign');
 
 /* iniciar o objeto do express */
 var app = express();
+
+mongoose.connect('mongodb://localhost:27017/heatmap');
 
 /* setar as variáveis 'view engine' e 'views' do express */
 app.set('view engine', 'ejs');

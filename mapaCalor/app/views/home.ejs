@@ -20,7 +20,7 @@
     <script type="text/javascript">
         function initialize() {
             $.getScript("js/geoxml3-master/polys/geoxml3.js", () => {
-                $.get("/getPoints", function (data) {
+                $.get("/points", function (data) {
                     var points = data.points;
                     initMap(points);
                 });

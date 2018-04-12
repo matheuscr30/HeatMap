@@ -3,8 +3,6 @@ var lastInfoBox = undefined,
     markerCluster,
     markers = [],
     searchBox,
-    geocoder,
-    tot = 0,
     points,
     map;
 
@@ -16,8 +14,6 @@ function initMap(pontos) {
         zoom: 14,
         fullscreenControl: false
     });
-
-    geocoder = new google.maps.Geocoder();
 
     configSearchBox();
     configSubtitle();
@@ -33,52 +29,16 @@ function initMap(pontos) {
     map.setCenter(new google.maps.LatLng(-18.8723181, -48.2950649));
     map.setZoom(14);
 
-    config(createMarkers, points);
-}
-
-function config(callback, points) {
-    //console.log(points.length);
     $.each(points, function (index, point) {
-        let aux = Date.parse(point['Inicio Incidente']);
-        let date = new Date(aux);
-        point.year = date.getFullYear();
-        point.month = date.getMonth();
-
-        searchPoint(index, point, callback);
-    });
-}
-
-function searchPoint(index, point, callback){
-    geocoder.geocode({
-        'address': point['Local Rompimento']
-    }, function (results, status) {
-        if (status == google.maps.GeocoderStatus.OK) {
-            point.Latitude = results[0].geometry.location.lat();
-            point.Longitude = results[0].geometry.location.lng();
-            callback(index, point);
-        }
-        else if (status == google.maps.GeocoderStatus.ZERO_RESULTS) {
-            callback(index, undefined);
-        }
-        else if (status == google.maps.GeocoderStatus.OVER_QUERY_LIMIT) {
-            setTimeout(function() {
-                searchPoint(index, point, callback);
-            }, 100 );
-        }
+        createMarkers(index, point);
     });
 }
 
 function createMarkers(index, point) {
-    //console.log(index + " point");
-    if (point === undefined) {
-        tot++;
-        configMarkerCluster();
-        return;
-    }
 
     let marker = new google.maps.Marker({
-        position: new google.maps.LatLng(point.Latitude, point.Longitude),
-        title: point.Protocolo,
+        position: new google.maps.LatLng(point.latitude, point.longitude),
+        title: point.protocolo,
         year: point.year,
         month: point.month,
         map: map
@@ -89,19 +49,19 @@ function createMarkers(index, point) {
     marker.info = new google.maps.InfoWindow({
         content: '<div>' +
         '<h4 class="h4-infowindow" style="display: inline">Protocolo : </h4>' +
-        '<p class="p-infowindow" style="display: inline">' + point.Protocolo + '</p> <br>' +
+        '<p class="p-infowindow" style="display: inline">' + point.protocolo + '</p> <br>' +
 
         '<h4 class="h4-infowindow" style="display: inline">Inicio Incidente : </h4>' +
-        '<p class="p-infowindow" style="display: inline">' + point["Inicio Incidente"] + '</p> <br>' +
+        '<p class="p-infowindow" style="display: inline">' + point.inicio_incidente + '</p> <br>' +
 
         '<h4 class="h4-infowindow" style="display: inline">Fim do Incidente : </h4>' +
-        '<p class="p-infowindow" style="display: inline">' + point["Fim do Incidente"] + '</p> <br>' +
+        '<p class="p-infowindow" style="display: inline">' + point.fim_incidente + '</p> <br>' +
 
         '<h4 class="h4-infowindow" style="display: inline">Problema : </h4>' +
-        '<p class="p-infowindow" style="display: inline">' + point["Origem do Problema"] + '</p> <br>' +
+        '<p class="p-infowindow" style="display: inline">' + point.origem_problema + '</p> <br>' +
 
         '<h4 class="h4-infowindow" style="display: inline">Motivo : </h4>' +
-        '<p class="p-infowindow" style="display: inline">' + point["Causa"] + '</p> <br>' +
+        '<p class="p-infowindow" style="display: inline">' + point.causa + '</p> <br>' +
 
         '</div>'
     });
@@ -117,16 +77,13 @@ function createMarkers(index, point) {
         lastInfoBox = marker.info;
     });
 
-    tot++;
+    if(index === points.length-1)
+        $("#loadingBar").addClass("hidden");
+
     configMarkerCluster();
 }
 
 function configMarkerCluster() {
-    //console.log(tot + " " + points.length);
-
-    if(tot === points.length)
-        $("#loadingBar").addClass("hidden");
-
     if(markerCluster){
         activeMarkers = markers;
         markerCluster.clearMarkers();
