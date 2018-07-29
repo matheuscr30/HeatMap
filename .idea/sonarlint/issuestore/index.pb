@@ -21,3 +21,9 @@ S
 #mapaCalor/app/views/rompimentos.ejs,8/5/853a99cb227469b54c7d3f9276bcf9d0c65b796a
 N
 mapaCalor/app/routes/config.js,e/7/e7895ac777b424a005ec28c6345e44217807f1f3
+N
+mapaCalor/app/routes/points.js,e/4/e4d1b25de20d9960cb44feaa80b4200bb76f3d3f
+M
+mapaCalor/app/models/point.js,c/1/c1f8b9f4eb35bd4cf254efb3808fbbc73b39d4a4
+S
+#mapaCalor/app/controllers/points.js,2/3/23cffff0d0649dd5f094a2fbb697b0fb9c8f20fb
