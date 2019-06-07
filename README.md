@@ -1,6 +1,6 @@
 # HeatMap
 
-An HeatMap made in Node.Js for Algar Telecom
+A HeatMap made in Node.Js for Algar Telecom
 
 ## Installation
 
