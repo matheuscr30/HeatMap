@@ -1,4 +1,4 @@
 .idea
-
+node_modules/
 passwords.txt
 mapaCalor/package-lock.json
